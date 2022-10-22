@@ -19,7 +19,7 @@ spec:
       containers:
       - image: daoducnha29493/techtrends:latest
         imagePullPolicy: IfNotPresent
-        name: go-helloworld
+        name: techtrends
         ports:
         - containerPort: 3111
           protocol: TCP
