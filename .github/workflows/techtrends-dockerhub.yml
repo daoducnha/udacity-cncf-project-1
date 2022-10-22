@@ -25,6 +25,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - shell: bash
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+        run: |
+          echo $DOCKERHUB_USERNAME
+          echo $DOCKERHUB_PASSWORD
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
 
