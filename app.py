@@ -49,7 +49,7 @@ def post(post_id):
       app.logger.info(f"Post {post_id} not found!")
       return render_template('404.html'), 404
     else:
-        app.logger.info(f"Got data of post {post_id}")
+      app.logger.info(f"Got data of post {post_id}")
       return render_template('post.html', post=post)
 
 # Define the About Us page
@@ -81,7 +81,7 @@ def create():
     return render_template('create.html')
 
 # Define the health check endpoint
-@app.route('/healthz', method=('GET')) 
+@app.route('/healthz') 
 def healthz():
     response = app.response_class(
         response=json.dumps({"result": "OK-health"}),
@@ -91,7 +91,7 @@ def healthz():
     return response
 
 # Define the metrics endpoint
-@app.route("/metrics")
+@app.route('/metrics')
 def metrics():
     total_posts = get_total_posts()
     response = app.response_class(
