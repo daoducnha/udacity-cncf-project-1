@@ -3,12 +3,16 @@ import sqlite3
 from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
 import logging
+import sys
 
 # Function to get a database connection.
 # This function connects to database with the name `database.db`
+connection_nums = 0
+
 def get_db_connection():
     connection = sqlite3.connect('database.db')
     connection.row_factory = sqlite3.Row
+    connection_nums = connection_nums + 1
     return connection
 
 # Function to get a post using its ID
@@ -95,7 +99,7 @@ def healthz():
 def metrics():
     total_posts = get_total_posts()
     response = app.response_class(
-        response=json.dumps({"status":"success","code":0,"data":{"db_connection_count":1,"post_count":total_posts}}),
+        response=json.dumps({"status":"success","code":0,"data":{"db_connection_count":{connection_nums},"post_count":total_posts}}),
           status=200,
           mimetype='application/json'
     )
@@ -103,4 +107,13 @@ def metrics():
 
 # start the application on port 3111
 if __name__ == "__main__":
+   ## stream logs to app.log file
+   logging.basicConfig(filename='app.log',level=logging.DEBUG)
+   stdout_handler = logging.StreamHandler(stream=sys.stdout)
+   stderr_handler = logging.StreamHandler(stream=sys.stderr)
+   handlers = [stderr_handler, stdout_handler]
+ 
+   format_output = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+
+   logging.basicConfig(format=format_output, level=logging.DEBUG, handlers=handlers)
    app.run(host='0.0.0.0', port='3111')
