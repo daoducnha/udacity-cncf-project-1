@@ -5,14 +5,13 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    namespace: staging
+    namespace: default
     server: https://kubernetes.default.svc
   project: default
   source:
     helm:
       valueFiles:
-      - values.yaml
-    path: helm-techtrends-staging
-    repoURL:
-    https://github.com/kgamanji/argocd-demo
-  syncPolicy: {}
+      - values-staging.yaml
+    path: helm
+    repoURL: https://github.com/daoducnha/udacity-cncf-project-1
+    targetRevision: HEAD
